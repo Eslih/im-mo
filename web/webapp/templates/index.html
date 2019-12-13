@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if session['logged_in'] %}
+        <h1 class="jumbotron-heading">Index - Logged in!</h1>
+        <p>
+            This is just a PoC. Go to <a href="/bribe">bribes</a>!
+        </p>
+    {% else %}
+        <h1 class="jumbotron-heading">Index</h1>
+
+        {% if data %}
+            <div class="alert alert-danger" role="alert">
+                <strong>You must be retarded!</strong> No user with username <strong>{{ data.username }}</strong> and
+                password <strong>{{ data.password }}</strong>!
+            </div>
+            <a href="/login" class="btn btn-warning">Try again!</a>
+            <a href="/registration" class="btn btn-success">Register!</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
