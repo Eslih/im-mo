@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 services:
   webapp:
     command: uwsgi --ini app.ini
@@ -15,12 +15,12 @@ services:
   nginx:
     image: webapp-nginx
     build: ./nginx
-    expose:
-      - 80
+    ports:
+      - 80:80
     depends_on:
       - webapp
   postgres:
-    image: 'postgres:12.1-alpine'
+    image: 'postgres:12.4-alpine'
     environment:
       - POSTGRES_PASSWORD=student_password
       - POSTGRES_USER=student_user
