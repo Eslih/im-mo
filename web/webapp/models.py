@@ -16,17 +16,15 @@ class User(db.Model):
         return '<User {}>'.format(self.username)
 
 
-class Bribe(db.Model):
-    __tablename__ = 'bribes'
+class Transaction(db.Model):
+    __tablename__ = 'transactions'
     id = db.Column(db.Integer, primary_key=True)
-    student = db.Column(db.String, nullable=False)
-    amount = db.Column(db.Numeric(10, 2), nullable=False)
-    points = db.Column(db.Integer, nullable=False)
+    property = db.Column(db.String, nullable=False)
+    amount = db.Column(db.Numeric(12), nullable=False)
 
-    def __init__(self, student, amount, points):
-        self.student = student
+    def __init__(self, property, amount):
+        self.property = property
         self.amount = amount
-        self.points = points
 
     def __repr__(self):
-        return '<Bribe {}>'.format(self.student)
+        return '<Transaction {}>'.format(self.property)

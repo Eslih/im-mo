@@ -15,8 +15,8 @@ services:
   nginx:
     image: webapp-nginx
     build: ./nginx
-    ports:
-      - 80:80
+    expose:
+      1234
     depends_on:
       - webapp
   postgres:

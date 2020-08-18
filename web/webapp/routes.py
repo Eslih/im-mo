@@ -1,6 +1,6 @@
 from flask import url_for, render_template, request, redirect, session, g
 from flask import current_app as app
-from .models import db, User, Bribe
+from .models import db, User, Transaction
 import socket
 import time
 import threading
@@ -59,30 +59,29 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/bribe', methods=['GET', 'POST'])
-def bribe():
+@app.route('/transaction', methods=['GET', 'POST'])
+def transaction():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    data = Bribe.query.all()
+    data = Transaction.query.all()
     if request.method == 'POST':
         try:
             amount = float(request.form['amount'])
-            if amount < 500:
-                return render_template('bribe.html', error="No way Jose, that's way too cheap! It must be a mistake!",
-                                       bribes=data)
-            new_bribe = Bribe(student=request.form['student'], amount=amount,
-                              points=int(request.form['points']))
+            if amount < 30000:
+                return render_template('transaction.html', error="No way Jose, that's way too cheap! It must be a mistake!",
+                                       transactions=data)
+            new_transaction = Transaction(property=request.form['property'], amount=amount)
 
-            db.session.add(new_bribe)
+            db.session.add(new_transaction)
             db.session.commit()
 
-            return redirect(url_for('bribe'))
+            return redirect(url_for('transaction'))
         except Exception as e:
             error = "Some very good exception handling!" + str(e)
-            return render_template('bribe.html', error=error, bribes=data)
+            return render_template('transaction.html', error=error, transactions=data)
     else:
-        return render_template('bribe.html', bribes=data)
+        return render_template('transaction.html', transactions=data)
 
 
 @app.route('/logout')
